@@ -23,7 +23,7 @@ def test_cscd_a():
     v_moy = 36.4  # m/s, 100 ans retour
     n1 = 0.5  # Hz
     terrain = "O"
-    z0 = EN1991_1_4.z0[terrain]
+    z0 = EN1991_1_4.z0_table[terrain]
     zmin = EN1991_1_4.zmin[terrain]
     z = z_act - h_dis
     alpha = EN1991_1_4.alpha(z0)
@@ -43,7 +43,7 @@ def test_cscd_b():
     v_moy = 37.4  # m/s mean return period: 50 years,in terrain category “0” at 0.6 H, donc 36 m
     terrain = "O"
     n1 = 0.5  # Hz
-    z0 = EN1991_1_4.z0[terrain]
+    z0 = EN1991_1_4.z0_table[terrain]
     zmin = EN1991_1_4.zmin[terrain]
     alpha = EN1991_1_4.alpha(z0)
     l_turb = EN1991_1_4.l_turb(z, zmin, alpha)

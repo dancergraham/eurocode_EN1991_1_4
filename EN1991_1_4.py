@@ -20,7 +20,7 @@ class OutOfScopeError(ValueError):
 
 class Site():
     def __init__(self, terrain: str, vb0: float):
-        self.z0 = z0[terrain]
+        self.z0 = z0_table[terrain]
         self.zmin = zmin[terrain]
         self.vb0 = vb0
 
@@ -33,7 +33,7 @@ class Structure():
 
 z = np.empty([1])
 
-z0 = {'O': 0.003, 'I': 0.01, 'II': 0.05, 'III': 0.3, 'IV': 1.}
+z0_table = {'O': 0.003, 'I': 0.01, 'II': 0.05, 'III': 0.3, 'IV': 1.}
 
 zmin = {'O': 1., 'I': 1., 'II': 2., 'III': 5., 'IV': 10.}
 
@@ -102,9 +102,11 @@ z0NAFR = {'O': 0.005, 'II': 0.05, 'IIIa': 0.2, 'IIIb': 0.5, 'IV': 1.}
 
 zminNAFR = {'O': 1., 'II': 2., 'IIIa': 5., 'IIIb': 9., 'IV': 15.}
 
+
 def radiusNAFR(z: float) -> float:
     """radius for the evaltuation of roughness according to the French National annex"""
-    return max(23*z**1.2,300)
+    return max(23 * z ** 1.2, 300)
+
 
 radiusNABE = radiusNAFR
 
@@ -113,7 +115,7 @@ Vb0NAFR = {1: 22., 2: 24., 3: 26., 4: 28.}
 cprobFR = {50: 1., 25: .97, 10: .92, 5: .88, 2: .82}
 
 
-def iuFR(z, z0, zmin):
+def iuFR(z: float, z0: float, zmin: float) -> float:
     if z < zmin:
         z = zmin
     kI = 1 - 0.0002 * (np.log10(z0) + 3) ** 6
@@ -128,19 +130,18 @@ def CdirFR(dept, dir):
     regions = {}
     Cdirs = {'1': [10, 150, 0.7], '2': [70, 150, 0.7], '3': [50, 250, 0.85]}
     csvfile = open('data/FRNA_Cdir_dept.csv', encoding='utf')
-    a = csv.reader(csvfile, dialect='excel', delimiter=';')
-    for l in a:
-        if dept.upper() == l[0]:
-            reg = l[2]
-            if dir >= Cdirs[reg][0]:
-                if dir <= Cdirs[reg][1]:
-                    return Cdirs[reg][2]
+    with csv.reader(csvfile, dialect='excel', delimiter=';') as a:
+        for l in a:
+            if dept.upper() == l[0]:
+                reg = l[2]
+                if dir >= Cdirs[reg][0]:
+                    if dir <= Cdirs[reg][1]:
+                        return Cdirs[reg][2]
+                    else:
+                        return 1.
                 else:
                     return 1.
-            else:
-                return 1.
-    raise ValueError
-    csvfile.close()
+        raise ValueError
 
 
 def power_law(z, C, alpha):
@@ -315,11 +316,11 @@ def cp_monopitch_canopy(inclination: float, blockage: float, zone: str) -> tuple
                        'min_1': [-2.2, -2.5, -2.7, -3.0, -3.0, -2.8, -2.7],
                        },
                  }
-    inclinations = [0,5,10,15,20,25,30]
+    inclinations = [0, 5, 10, 15, 20, 25, 30]
     cp_max = np.interp(inclination, inclinations, cp_values[zone]['max'])
     cp_min_0 = np.interp(inclination, inclinations, cp_values[zone]['min_0'])
     cp_min_1 = np.interp(inclination, inclinations, cp_values[zone]['min_1'])
-    cp_min = np.interp(blockage, [0,1], [cp_min_0, cp_min_1])
+    cp_min = np.interp(blockage, [0, 1], [cp_min_0, cp_min_1])
     return (cp_max, cp_min)
 
 

@@ -54,7 +54,9 @@ def test_cscd_b():
     assert fl == approx(2.09, rel=0.01)
     assert sl == approx(0.08, rel=0.01)
 
-"""    assert b_squared == approx(0.793, rel=0.01)
+"""NOT YET IMPLEMENTED : 
+
+    assert b_squared == approx(0.793, rel=0.01)
     assert eta_h == approx(3.69, rel=0.01)
     assert eta_b == approx(1.23, rel=0.01)
     assert R_h == approx(0.234, rel=0.01)

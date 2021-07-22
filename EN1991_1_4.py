@@ -40,15 +40,13 @@ zmin = {'O': 1., 'I': 1., 'II': 2., 'III': 5., 'IV': 10.}
 
 def cr(z, z0, zmin):
     """Calculate mean wind speed ratio at a given height"""
-    if z < zmin:
-        z = zmin
+    z = np.clip(z, zmin, np.inf)
     return 0.19 * (z0 / 0.05) ** 0.07 * np.log(z / z0)
 
 
 def iu(z, z0, zmin):
     """Calclate turbulence intensity at a given height"""
-    if z < zmin:
-        z = zmin
+    np.clip(z, zmin, np.inf)
     return 1 / (co * np.log(z / z0))
 
 

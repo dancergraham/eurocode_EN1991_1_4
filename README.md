@@ -1,7 +1,6 @@
 # Eurocode EN1991-1-4:2005
 
-Implementations of Eurocode wind loading functions. Written whilst I was working as a professional 
-wind engineer at CSTB in France and tutor at Ecole Central Nantes.
+Implementations of Eurocode wind loading functions. Written whilst I was tutoring at Ecole Central Nantes.
 
 > **_DISCLAIMER:_**  I provide no guarantees for correctness of the solutions or appropriateness 
 for a given situation, nor for updates as the codes change.  Please get in touch if you would 
